@@ -1,17 +1,14 @@
 // import logo from './logo.svg';
 import * as React from 'react';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import io from 'socket.io-client';
-import ClientComponent from './socket/client';
+import { SocketContext, socket } from "./components/context/socket"
+import ClientComponent from './components/ClientComponent';
+import WarningSnackbar from './components/WarningSnackbar';
 
-const socket = io();
 
-function App() {
+export default function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = React.useMemo(
@@ -19,6 +16,19 @@ function App() {
       createTheme({
         palette: {
           mode: prefersDarkMode ? 'dark' : 'light',
+          white: {
+            main: '#ffffff',
+            contrastText: '#000',
+          }
+        },
+        typography: {
+          h1: { fontFamily: "ClashDisplay-Medium" },
+          h2: { fontFamily: "ClashDisplay-Medium" },
+          h3: { fontFamily: "ClashDisplay-Medium" },
+          h4: { fontFamily: "ClashDisplay-Medium" },
+          h5: { fontFamily: "ClashDisplay-Medium" },
+          h6: { fontFamily: "ClashDisplay-Medium" },
+          body1: { fontFamily: "ClashDisplay-Regular" },
         },
       }),
     [prefersDarkMode],
@@ -27,14 +37,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline enableColorScheme />
-      <Container maxWidth="sm">
-        <Box sx={{ my: 4 }}>
-          <Button variant="contained" color="secondary">Hello World</Button>
-          <ClientComponent />
-        </Box>
-      </Container>
+      <SocketContext.Provider value={socket}>
+        <ClientComponent/>
+        <WarningSnackbar />
+      </SocketContext.Provider>
     </ThemeProvider>
   );
 }
-
-export default App;
