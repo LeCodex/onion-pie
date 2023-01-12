@@ -47,7 +47,7 @@ module.exports = (io, socket) => {
         if (token !== game.currentPlayer().token) return; // Player is not the one guessing
 
         const guess = Math.max(0, Math.min(data.guess, 100));
-        game.updateGuess(guess);
+        game.guess = guess;
     });
 
     socket.on("game:guessSubmit", data => {

@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import useMediaQuery from '@mui/material/useMediaQuery';
+// import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { SocketContext, socket } from "./components/context/socket"
 import ClientComponent from './components/ClientComponent';
@@ -9,13 +9,13 @@ import WarningSnackbar from './components/WarningSnackbar';
 
 
 export default function App() {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = React.useMemo(
     () =>
       createTheme({
         palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
+          mode: 'dark',
           white: {
             main: '#ffffff',
             contrastText: '#000',
@@ -31,7 +31,7 @@ export default function App() {
           body1: { fontFamily: "ClashDisplay-Regular" },
         },
       }),
-    [prefersDarkMode],
+    []
   );
 
   return (

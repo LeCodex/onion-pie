@@ -58,7 +58,7 @@ export default function HostInterface(props) {
             <Stack justifyContent="center">
                 {
                     turn > -1
-                    ? <OngoingGameComponent question={props.question} phase={props.phase} currentPlayer={Object.values(players).filter(e => e.index === order[turn])[0]} />
+                    ? <OngoingGameComponent gameID={props.gameID} question={props.question} phase={props.phase} currentPlayer={Object.values(players).filter(e => e.index === order[turn])[0]} />
                     : <StartGameComponent gameID={props.gameID} />
                 }
                 <HostPlayerList players={players} turn={turn} phase={props.phase}/>

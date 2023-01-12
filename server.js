@@ -40,7 +40,6 @@ io.on("connection", (socket) => {
 
       if (game.clients[token]) {
         game.getPlayer(token).disconnected = true;
-        console.log(`Disconnected ${game.getPlayer(token).disconnected}`);
       }
     }
   });

@@ -25,7 +25,7 @@ export default function HostPlayerComponent(props) {
         higher: ["rgba(21,153,255,0.8)", "rgba(24,98,192,0.8)"],
         lower: ["rgba(190,97,6,0.8)", "rgba(227,25,19,0.8)"]
     };
-    const cardColorGradient = props.player.state ? cardColors[props.player.state] : ["rgba(80,80,80,0.3)", "rgba(0,0,0,0.3)"];
+    const cardColorGradient = props.player.state ? cardColors[props.player.state] : ["rgba(80,80,80,0.25)", "rgba(0,0,0,0.25)"];
     const textColor = "text.primary";
 
     var positionEmoji = "";

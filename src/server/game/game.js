@@ -29,6 +29,7 @@ class Game {
     percent = 0;
     phase = "";
     timer = null;
+    guessInterval = null;
 
     constructor(io, gameID, host) {
         this.io = io;
@@ -197,14 +198,12 @@ class Game {
         this.currentPlayer().state = "current"; // Current player doesn't vote
 
         this.startTimer(30, this.startVote);
-        this.host.emit("game:percent", {percent: 50});
         this.guess = 50;
+        this.guessInterval = setInterval(() => {
+            this.host.emit("game:percent", {percent: this.guess});
+        }, 100);
 
         this.sendPlayerList();
-    }
-
-    updateGuess(guess) {
-        this.host.volatile.emit("game:percent", {percent: guess});
     }
 
     getPercentFromAnswers() {
@@ -213,12 +212,13 @@ class Game {
             if (answer) total++;
         }
 
-        return Math.floor(total / Object.keys(this.answers).length * 100 + .5);
+        return Math.floor(total / Object.keys(this.answers).length * 100 + Math.random() * 2 - .5);
     }
 
     startVote(guess) {
-        this.guess = guess;
-        this.updateGuess(guess);
+        clearInterval(this.guessInterval);
+        this.guess = guess || this.guess;
+        this.host.emit("game:percent", {percent: this.guess});
         this.updatePhase("vote");
 
         this.percent = this.getPercentFromAnswers();
