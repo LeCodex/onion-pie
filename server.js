@@ -2,13 +2,17 @@ const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const port = process.env.PORT || 3000;
 const index = require("./routes/index");
 
 const app = express();
-app.use(index);
-app.use(express.static("public"));
+// app.use(index);
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
 
 const fs = require("fs");
