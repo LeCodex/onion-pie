@@ -5,7 +5,6 @@ import PlayerPercentInput from './PlayerPercentInput';
 import PlayerQuestionInput from './PlayerQuestionInput';
 import PlayerAnswerInput from './PlayerAnswerInput';
 import PlayerVoteInput from './PlayerVoteInput';
-import PlayerNotificationSnackbar from './PlayerNotificationSnackbar';
 
 export default function PlayerInterface(props) {
     const socket = useContext(SocketContext);
@@ -45,7 +44,6 @@ export default function PlayerInterface(props) {
                 <Typography align='center' variant="h5">{props.question}</Typography>
             </Box>
             {phaseComponents[props.phase] || ""}
-            <PlayerNotificationSnackbar />
         </Box>
     )
 }

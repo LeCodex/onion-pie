@@ -26,7 +26,7 @@ export default function StartGameComponent(props) {
 
     return (
         <Stack spacing={2} margin={2} alignItems="center">
-            <Typography variant="h3">Room code: {props.gameID}</Typography>
+            <Typography variant="h3" mt="5%">Room code: {props.gameID}</Typography>
             <Button onClick={handleStartClick} disabled={!canStart} id="join" variant="contained" size="large">Start game</Button>
         </Stack>
     );

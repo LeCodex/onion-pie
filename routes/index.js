@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send({ response: "I am alive" }).status(200);
+router.get('/', function (req, res) {
+  res.sendFile("../../build/index.html");
 });
 
 module.exports = router;

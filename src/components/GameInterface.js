@@ -3,6 +3,7 @@ import { useContext, useState, useCallback, useEffect } from 'react';
 import { SocketContext } from './context/socket';
 import HostInterface from './HostInterface';
 import PlayerInterface from './PlayerInterface';
+import PlayerNotificationSnackbar from './PlayerNotificationSnackbar';
 
 
 export default function GameInterface(props) {
@@ -36,6 +37,7 @@ export default function GameInterface(props) {
                 ? <HostInterface question={question} phase={phase} gameID={props.gameID} />
                 : <PlayerInterface question={question} phase={phase} gameID={props.gameID} username={props.username}/>
             }
+            <PlayerNotificationSnackbar />
         </Box>
     )
 }

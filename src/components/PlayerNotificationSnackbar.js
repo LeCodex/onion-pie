@@ -5,8 +5,8 @@ import { SocketContext } from "./context/socket";
 export default function PlayerNotificationSnackbar() {
     const socket = useContext(SocketContext);
 
-    const [message, setMessage] = useState("")
-    const [open, setOpen] = useState(false)
+    const [message, setMessage] = useState("");
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         socket.on("game:message", message => {

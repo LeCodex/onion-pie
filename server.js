@@ -1,17 +1,48 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
+const bodyParser = require('body-parser');
 
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 3000;
 const index = require("./routes/index");
+
+const app = express();
+app.use(index);
+app.use(express.static("public"));
+app.use(bodyParser.json());
+
+const fs = require("fs");
+const cmd = require('node-cmd');
+const crypto = require('crypto');
+
+const onWebhook = (req, res) => {
+	let hmac = crypto.createHmac('sha1', process.env.SECRET);
+	let sig = `sha1=${hmac.update(JSON.stringify(req.body)).digest('hex')}`;
+
+	if (req.headers['x-github-event'] === 'push' && sig === req.headers['x-hub-signature']) {
+		cmd.run('chmod 777 ./git.sh');
+
+		cmd.run('./git.sh', (err, data) => {
+			if (data) {
+				console.log(data);
+			}
+			if (err) {
+				console.log(err);
+			}
+		})
+
+		cmd.run('refresh');
+	}
+
+	return res.sendStatus(200);
+}
+
+app.post('/git', onWebhook);
 
 const registerJoinMenuHandlers = require("./src/server/handlers/joinMenu");
 const registerGameHandlers = require("./src/server/handlers/game");
 
 const { context } = require("./src/server/context");
-
-const app = express();
-app.use(index);
 
 const server = http.createServer(app);
 const io = socketIo(server, {

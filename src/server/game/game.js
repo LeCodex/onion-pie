@@ -212,7 +212,7 @@ class Game {
             if (answer) total++;
         }
 
-        return Math.floor(total / Object.keys(this.answers).length * 100 + Math.random() * 2 - .5);
+        return Math.floor(total / Object.keys(this.answers).length * 100);
     }
 
     startVote(guess) {
