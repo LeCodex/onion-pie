@@ -25,7 +25,7 @@ module.exports = (io, socket) => {
 
         game.questions[game.clients[token]] = data.question;
         game.getPlayer(token).state = "submitted";
-        socket.emit("game:phase", "");
+        game.getPlayer(token).setPhase("");
         game.checkQuestionEnd();
     });
 
@@ -36,7 +36,7 @@ module.exports = (io, socket) => {
 
         game.answers[game.clients[token]] = data.answer;
         game.getPlayer(token).state = "submitted";
-        socket.emit("game:phase", "");
+        game.getPlayer(token).setPhase("");
         game.checkAnswerEnd();
     });
 
@@ -66,8 +66,8 @@ module.exports = (io, socket) => {
         if (game.phase !== "vote") return; // Game not in the right phase
         if (token === game.currentPlayer().token) return; // Player is the one guessing
 
-        socket.emit("game:phase", "");
         game.getPlayer(token).state = data.vote;
+        game.getPlayer(token).setPhase("");
         game.checkVoteEnd();
     });
 

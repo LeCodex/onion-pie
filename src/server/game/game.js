@@ -108,7 +108,8 @@ class Game {
 
     updatePhase(phase) {
         this.phase = phase;
-        this.io.in(this.gameID).emit("game:phase", {phase: phase});
+        this.host.emit("game:phase", {phase: phase});
+        for (var player of Object.values(this.players)) player.setPhase(phase);
     }
 
     start() {
@@ -275,6 +276,7 @@ class Game {
         console.log(`Game ${this.gameID} ended.`)
         for (var player of Object.values(this.players)) player.state = null;
         this.sendPlayerList();
+        this.host.emit("game:turn", {turn: -2});
     }
 
     delete() {
@@ -290,6 +292,7 @@ class Player {
     state = null;
     score = 0;
     disconnected = false;
+    phase = "";
 
     constructor(game, socket, token, username) {
         this.game = game;
@@ -299,12 +302,17 @@ class Player {
         this.updateSocket(socket);
     }
 
+    setPhase(phase) {
+        this.phase = phase;
+        this.socket.emit("game:phase", {phase: phase});
+    }
+
     updateSocket(socket) {
         this.socket = socket;
         socket.join(this.game.gameID);
         setTimeout(() => {
             if (this.game.turn > -1) socket.emit("game:current player", {token: this.game.currentPlayer().token});
-            socket.emit("game:phase", {phase: this.game.phase});
+            socket.emit("game:phase", {phase: this.phase});
         }, 500);
         this.disconnected = false;
     }

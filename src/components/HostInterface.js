@@ -7,6 +7,7 @@ import HostPlayerList from './HostPlayerList';
 import { Paper } from '@mui/material';
 
 import Image from './img/background.jpg';
+import EndGameComponent from './EndGameComponent';
 
 export default function HostInterface(props) {
     const socket = useContext(SocketContext);
@@ -30,7 +31,7 @@ export default function HostInterface(props) {
     }, []);
 
     const handleEnded = useCallback(data => {
-        setTurn(-1);
+        // setTurn(-1);
     }, []);
 
     useEffect(() => {
@@ -57,9 +58,11 @@ export default function HostInterface(props) {
         <Paper style={styles.paperContainer} sx={{left: 0, up: 0, position: "absolute", width: "100vw", height:"100vh", backgroundSize: "100vw 100vh"}}>
             <Stack justifyContent="center">
                 {
-                    turn > -1
+                    turn === -2 
+                    ? <EndGameComponent players={players}/>
+                    : (turn > -1
                     ? <OngoingGameComponent gameID={props.gameID} question={props.question} phase={props.phase} currentPlayer={Object.values(players).filter(e => e.index === order[turn])[0]} />
-                    : <StartGameComponent gameID={props.gameID} />
+                    : <StartGameComponent gameID={props.gameID} />)
                 }
                 <HostPlayerList players={players} turn={turn} phase={props.phase}/>
             </Stack>
